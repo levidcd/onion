@@ -3,7 +3,8 @@
  * 处理的是同一个对象
  */
 
-import { MiddlewareManger } from './MiddlewareManger';
+import { MiddlewareManger } from "../middlewareManger/index";
+import { MiddlewareAlias } from "../middlewareManger/interface";
 
 class HttpClient extends MiddlewareManger {
   constructor() {
@@ -15,10 +16,10 @@ class HttpClient extends MiddlewareManger {
   }
 
   get(url, config?, otherConfig?) {
-    return this.request(url, { ...config, method: 'GET' }, otherConfig);
+    return this.request(url, { ...config, method: "GET" }, otherConfig);
   }
   post(url, config?, otherConfig?) {
-    return this.request(url, { ...config, method: 'POST' }, otherConfig);
+    return this.request(url, { ...config, method: "POST" }, otherConfig);
   }
 }
 
@@ -45,13 +46,4 @@ console.log(httpClient.request);
 
 const request = httpClient.request.bind(httpClient);
 
-httpClient
-  .request('https://api.uomg.com/api/rand.qinghua')
-  .then((res) => {
-    const result = res.json();
-    console.log(result);
-    return result;
-  })
-  .then((res) => {
-    console.log(res);
-  });
+export { request, httpClient };
