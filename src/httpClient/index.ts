@@ -3,8 +3,9 @@
  * 处理的是同一个对象
  */
 
-import { MiddlewareManger } from "../middlewareManger/index";
-import { MiddlewareAlias } from "../middlewareManger/interface";
+import { MiddlewareManger } from "../middlewareCreator/index";
+import { MiddlewareAlias } from "../middlewareCreator/interface";
+import { responseMiddleware } from "./middleware/responseMiddleware";
 
 class HttpClient extends MiddlewareManger {
   constructor() {
@@ -27,18 +28,7 @@ const httpClient = new HttpClient();
 
 function getContentType(contentType) {}
 
-/**
- * 判断是Json自动转换
- * @param next
- * @returns
- */
-const responseMiddleware: MiddlewareAlias = (next) => async (req) => {
-  console.log(req);
-  const res = await next(req);
 
-  console.log(res);
-  return res;
-};
 
 httpClient.use([responseMiddleware]);
 
