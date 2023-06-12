@@ -4,36 +4,39 @@
  */
 
 import { MiddlewareManger } from "../middlewareCreator/index";
-import { MiddlewareAlias } from "../middlewareCreator/interface";
-import { responseMiddleware } from "./middleware/responseMiddleware";
+import { Middleware } from "../middlewareCreator/interface";
+import { requestHandler } from "./middleware/requestHandler";
+import { responseHandler } from "./middleware/responseHandler";
+import { responseTypeHandler } from "./middleware/responseTypeHandler";
 
 class HttpClient extends MiddlewareManger {
+  middleware = [responseTypeHandler, requestHandler, responseHandler];
+
+  use(middleware: Middleware | Middleware[]): this {
+    const responseHandler = this.middleware.pop()!;
+
+    this.middleware = [
+      ...this.middleware,
+      ...[middleware].flat(),
+      responseHandler,
+    ];
+
+    return this;
+  }
+
   constructor() {
     super();
   }
-  request(url, config?, otherConfig?) {
-    const newOptions = {};
-    return this.dispatch(fetch)(url, config, otherConfig);
+  request(options) {
+    return this.dispatch(fetch)(options);
   }
 
-  get(url, config?, otherConfig?) {
-    return this.request(url, { ...config, method: "GET" }, otherConfig);
+  get(url, options) {
+    return this.request({ url, ...options, method: "GET" });
   }
-  post(url, config?, otherConfig?) {
-    return this.request(url, { ...config, method: "POST" }, otherConfig);
+  post(url, options) {
+    return this.request({ url, ...options, method: "POST" });
   }
 }
 
-const httpClient = new HttpClient();
-
-function getContentType(contentType) {}
-
-
-
-httpClient.use([responseMiddleware]);
-
-console.log(httpClient.request);
-
-const request = httpClient.request.bind(httpClient);
-
-export { request, httpClient };
+export { HttpClient };

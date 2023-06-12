@@ -45,7 +45,7 @@ const drive: MidddleAlias = (next) => (dog) => {
 };
 const newBathe = (next) => (dog) => {
   console.log('洗狗', dog);
-  debugger;
+
 
   return next(dog);
 };

@@ -72,9 +72,3 @@ getList().then((res) => {
   console.log(res);
 });
 
-// function a1() {
-//   console.log('函数a1 入');
-//   return function () {
-//     console.log('函数a1 出');
-//   };
-// }

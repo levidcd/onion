@@ -1,11 +1,11 @@
-import { request } from "./httpClient/index";
+import { request } from "./request";
 
-request("https://api.uomg.com/api/rand.qinghua")
-  .then((res) => {
-    const result = res.json();
-    console.log(result);
-    return result;
-  })
+request("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json", {
+  responseType: "json",
+})
   .then((res) => {
     console.log(res);
+  })
+  .catch((err) => {
+    console.log(err);
   });
