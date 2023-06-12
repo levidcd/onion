@@ -4,4 +4,4 @@
 // import './4.ts';
 // import './5.ts';
 
-import './fetch.ts';
+import './src/index';

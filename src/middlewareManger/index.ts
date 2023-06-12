@@ -1,5 +1,3 @@
-import { Middleware } from './interface';
-
 //  对应函数
 function compose(...funcs) {
   if (funcs.length === 0) {
