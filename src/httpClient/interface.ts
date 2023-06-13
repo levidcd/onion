@@ -8,4 +8,7 @@ export interface ResInit extends ResponseInit {}
  * 拓展默认的 RequestInit 类型
  * @host https://developer.mozilla.org/zh-CN/docs/Web/API/Request/Request
  */
-export interface ReqInit extends RequestInit {}
+export interface ReqInit extends RequestInit {
+  meta: any;
+  _options: any;
+}
