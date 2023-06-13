@@ -1,6 +1,6 @@
 {
   "name": "@agito/http-client",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "module": "es/index.js",
   "typings": "es/index.d.ts",
@@ -18,5 +18,13 @@
   "license": "ISC",
   "dependencies": {
     "@agito/onion-core": "workspace:^"
+  },
+  "files": [
+    "/umd",
+    "/es",
+    "/dist"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }
