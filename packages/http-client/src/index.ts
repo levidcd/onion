@@ -3,16 +3,18 @@
  * 处理的是同一个对象
  */
 
-import { MiddlewareManger } from "../middlewareCreator/index";
-import { Middleware } from "../middlewareCreator/interface";
+import { MiddlewareManger } from "@agito/onion-core";
 import { requestHandler } from "./middleware/requestHandler";
 import { responseHandler } from "./middleware/responseHandler";
 import { responseTypeHandler } from "./middleware/responseTypeHandler";
+import { Req } from "./Req";
+import { Res } from "./Res";
+import { Middleware } from "./interface";
 
-class HttpClient extends MiddlewareManger {
+class HttpClient extends MiddlewareManger<Req, Res> {
   middleware = [responseTypeHandler, requestHandler, responseHandler];
 
-  use(middleware: Middleware | Middleware[]): this {
+  use(middleware: Middleware | Middleware): this {
     const responseHandler = this.middleware.pop()!;
 
     this.middleware = [

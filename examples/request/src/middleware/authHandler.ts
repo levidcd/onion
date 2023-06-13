@@ -1,4 +1,4 @@
-import { MiddlewareAlias } from "../../middlewareCreator/interface";
+import { MiddlewareAlias } from "../../../packages/core/middlewareCreator/interface";
 
 export const authHandler: MiddlewareAlias = (next) => async (req) => {
   console.log(req)

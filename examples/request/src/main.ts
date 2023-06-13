@@ -1,4 +1,4 @@
-import { request } from "./request";
+import { request } from "..";
 
 request("https://api.uomg.com/api/rand.music?sort=热歌榜&format=json", {
   responseType: "json",

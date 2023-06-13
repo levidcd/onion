@@ -1,0 +1,22 @@
+{
+  "name": "@agito/http-client",
+  "version": "1.0.0",
+  "description": "",
+  "module": "es/index.js",
+  "typings": "es/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pnpm build:esm",
+    "build:esm": "tsc",
+    "build:umd": "vite build",
+    "dev": "pnpm build:esm  --w",
+    "dev:esm": "pnpm build:esm  --w",
+    "dev:umd": "pnpm build:umd  --w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@agito/onion-core": "workspace:^"
+  }
+}

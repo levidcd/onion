@@ -1,4 +1,4 @@
-const isJsonBody = (body: Body | BodyInit | Record<string, any>) => {
+export const isJsonBody = (body: Body | BodyInit | Record<string, any>) => {
   /**
    * Judging the type supported by BodyInit
    * Types not supported by node, first determine if they exist
@@ -19,4 +19,4 @@ const isJsonBody = (body: Body | BodyInit | Record<string, any>) => {
   );
 };
 
-export default isJsonBody;
+

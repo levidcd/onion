@@ -1,6 +1,6 @@
-import isJsonBody from "../utils/isJsonBody";
-import { ResInit } from "./interface";
 
+import { ResInit } from "./interface";
+import { isJsonBody } from "./utils";
 export class Res extends Response {
   /**
    * 对返回对象的增强
@@ -13,11 +13,9 @@ export class Res extends Response {
     const headers = new Headers(options.headers ?? response.headers);
 
     if (body && isJsonBody(body)) {
-
       try {
         body = JSON.stringify(body);
       } catch (error) {
-
         throw new TypeError(`Response body must be a valid JSON object.`);
       }
     }

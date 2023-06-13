@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "rootDir": "./src",
+    "skipLibCheck": true,
+    "outDir": "es",
+    "allowJs": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@@/*": ["src/.umi/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["jest.config.js"]
+}

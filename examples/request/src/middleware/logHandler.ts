@@ -1,4 +1,4 @@
-import { MiddlewareAlias } from "../../middlewareCreator/interface";
+import { MiddlewareAlias } from "../../../packages/core/middlewareCreator/interface";
 
 export const logHandler: MiddlewareAlias = (next) => async (req) => {
   let start = Date.now();

@@ -1,6 +1,6 @@
-import { HttpClient } from "../httpClient";
-import { authHandler } from "./middleware/authHandler";
-import { logHandler } from "./middleware/logHandler";
+import { HttpClient } from "../../packages/httpClient";
+import { authHandler } from "./src/middleware/authHandler";
+import { logHandler } from "./src/middleware/logHandler";
 
 const httpClient = new HttpClient();
 

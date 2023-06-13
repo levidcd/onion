@@ -2,27 +2,22 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/my-lib.cjs",
-  "module": "./dist/my-lib.js",
-  "exports": {
-    ".": {
-      "import": "./dist/my-lib.js",
-      "require": "./dist/my-lib.cjs"
-    }
-  },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "build:esm": "tsc",
-    "preview": "vite preview",
+    "preinstall": "npx only-allow pnpm",
+    "build": "pnpm clean && pnpm -r --filter=./packages/** run build",
+    "dev": "pnpm -r --filter=./packages/** run dev",
+    "clean": "rimraf packages/*/{umd,es,dist,.umi}",
+    "changeset": "changeset",
+    "changelog": "changeset version",
+    "release": "pnpm build && pnpm release:only",
+    "release:only": "changeset publish --access public --registry=https://registry.npmjs.com/",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "git-cz": "^4.9.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^5.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
     "vitest": "^0.32.0"

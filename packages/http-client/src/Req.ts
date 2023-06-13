@@ -1,8 +1,11 @@
-import isJsonBody from "../utils/isJsonBody";
+import { isJsonBody } from "./utils";
 import { ReqInit } from "./interface";
 
 export class Req extends Request {
+  readonly url: any;
+
   readonly meta: any;
+  responseType: any;
   /**
    * 对请求对象的增强
    * @param response 上一个对象
@@ -39,6 +42,7 @@ export class Req extends Request {
       mode: options.mode ?? request.mode,
     });
 
-    this.meta = { ...request.meta, ...options.meta};
+    this.meta = { ...request.meta, ...options.meta };
+    this.responseType = options.responseType ?? request.responseType;
   }
 }

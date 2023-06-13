@@ -1,4 +1,5 @@
-import { Middleware } from "../../middlewareCreator/interface";
+
+import { Middleware } from "@/interface";
 import { Req } from "../Req";
 
 
