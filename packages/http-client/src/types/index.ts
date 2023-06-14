@@ -1,12 +1,28 @@
+import {
+  Middleware,
+  Next,
+} from "@agito/onion-core/es/middlewareCreator/interface";
 import type { Req } from "../Req";
 import type { Res } from "../Res";
 
-export type HttpClientNext = (res: Req) => Promise<Res>;
-export type HttpClientMiddleware = (
-  next: HttpClientNext
-) => (res: Req) => Promise<Res>;
+export type IResult = {
+  code: number;
+  data: Record<string, any> | null | undefined;
+  msg: string | null | undefined;
+};
 
+export interface IOptions extends ReqInit {
+  baseURL?: string;
+  params?: Record<string, any>;
+}
+export interface OverrideReqInit extends IOptions {
+  url: string;
+  body?: BodyInit;
+}
 
+export type HttpClientMiddleware = Middleware<Req, Res>;
+
+export type HttpClientWrapperMiddleware = Middleware<IOptions, IResult>;
 
 export type IResponseType =
   | "json"

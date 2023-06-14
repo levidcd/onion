@@ -4,14 +4,19 @@
  */
 
 import { MiddlewareManger } from "@agito/onion-core";
-import { Options, requestHandler } from "./middleware/requestHandler";
+import { requestHandler } from "./middleware/requestHandler";
 import { responseHandler } from "./middleware/responseHandler";
 import { responseTypeHandler } from "./middleware/responseTypeHandler";
 import { Req } from "@/Req";
 import { Res } from "@/Res";
 
 import { takeTimeHandler } from "./middleware/takeTimeHandler";
-import { HttpClientMiddleware } from "@/types";
+import {
+  HttpClientMiddleware,
+  HttpClientWrapperMiddleware,
+  IResult,
+  IOptions,
+} from "@/types";
 import { mergeHeaders } from "@/utils";
 
 class HttpClient extends MiddlewareManger<Req, Res> {
@@ -25,12 +30,12 @@ class HttpClient extends MiddlewareManger<Req, Res> {
   use(middleware: HttpClientMiddleware | HttpClientMiddleware[]): this {
     const responseHandler = this.middleware.pop()!;
     const takeTimeHandler = this.middleware.pop()!;
-    const responseTypeHandler = this.middleware.pop()!;
+    // const responseTypeHandler = this.middleware.pop()!;
 
     this.middleware = [
       ...this.middleware,
       ...[middleware].flat(),
-      responseTypeHandler,
+      // responseTypeHandler,
       takeTimeHandler,
       responseHandler,
     ];
@@ -38,16 +43,18 @@ class HttpClient extends MiddlewareManger<Req, Res> {
     return this;
   }
 
-  useWrapper(middleware: HttpClientMiddleware | HttpClientMiddleware[]): this {
+  useWrapper(
+    middleware: HttpClientWrapperMiddleware | HttpClientWrapperMiddleware[]
+  ): this {
     this.middleware = [
       ...[...[middleware].flat()].reverse(),
       ...this.middleware,
-    ];
+    ] as HttpClientMiddleware[];
 
     return this;
   }
-  options: Options;
-  constructor(options: Options = {}) {
+  options: IOptions;
+  constructor(options: IOptions = {}) {
     super();
     this.options = {
       ...options,
@@ -71,6 +78,6 @@ class HttpClient extends MiddlewareManger<Req, Res> {
 }
 
 export { HttpClient };
-export { HttpClientMiddleware };
+export { HttpClientMiddleware, HttpClientWrapperMiddleware };
 export { Req, Res };
 export { ResponseError } from "./constant";
