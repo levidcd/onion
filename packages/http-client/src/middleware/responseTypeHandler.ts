@@ -1,12 +1,23 @@
-import { Middleware } from "@/interface";
+import { HttpClientMiddleware } from "../types";
 
 
-
-export const responseTypeHandler: Middleware = (next) => async (req) => {
-
+export const responseTypeHandler: HttpClientMiddleware = (next) => async (req) => {
   const res = await next(req);
+  try {
+    if (req.responseType === "json") {
+      return await res[req.responseType]();
+    }
 
-
-  return req.responseType ? await res[req.responseType]() : res;
+    return req.responseType
+      ? {
+          code: 0,
+          data: await res[req.responseType](),
+          msg: "",
+          resInfo: res,
+        }
+      : res;
+  } catch (error) {
+    console.error(error);
+    return res;
+  }
 };
-

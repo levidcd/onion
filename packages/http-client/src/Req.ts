@@ -1,17 +1,16 @@
 import { isJsonBody } from "./utils";
-import { ReqInit } from "./interface";
+import type { IResponseType, ReqInit } from "./types";
 
 export class Req extends Request {
-  readonly url: any;
-
-  readonly meta: any;
-  responseType: any;
+  readonly meta?: Record<string, any>;
+  readonly responseType?: IResponseType;
+  readonly originRequest: Record<string, any>;
   /**
    * 对请求对象的增强
    * @param response 上一个对象
    * @param options 拓展
    */
-  constructor(request: Req, options: ReqInit) {
+  constructor(request: Req, options: ReqInit | Request) {
     let body = (options.body ?? request.body) as BodyInit;
 
     const headers = new Headers(options.headers ?? request.headers);
@@ -41,8 +40,8 @@ export class Req extends Request {
       body: body ?? request.body,
       mode: options.mode ?? request.mode,
     });
-
-    this.meta = { ...request.meta, ...options.meta };
-    this.responseType = options.responseType ?? request.responseType;
+    this.meta = (options as ReqInit).meta ?? request.meta;
+    this.responseType = (options as ReqInit).responseType ?? request.responseType;
+    this.originRequest = request;
   }
 }

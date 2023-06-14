@@ -5,7 +5,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm clean && pnpm -r --filter=./packages/** run build",
-    "dev": "pnpm -r --filter=./packages/** run dev",
+    "dev": "pnpm -r --filter=./packages/** run --parallel dev",
     "clean": "rimraf packages/*/{umd,es,dist,.umi}",
     "changeset": "changeset",
     "changelog": "changeset version",
@@ -20,9 +20,8 @@
     "rimraf": "^5.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
-    "vitest": "^0.32.0"
-  },
-  "dependencies": {
+    "vitest": "^0.32.0",
     "@changesets/cli": "^2.26.1"
-  }
+  },
+  "dependencies": {}
 }

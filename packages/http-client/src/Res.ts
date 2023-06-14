@@ -1,13 +1,14 @@
-
-import { ResInit } from "./interface";
+import { IResponseType, ResInit } from "./types";
 import { isJsonBody } from "./utils";
 export class Res extends Response {
+  readonly responseType?: IResponseType;
+  readonly meta?: Record<string, any>;
   /**
    * 对返回对象的增强
    * @param response 上一个对象
    * @param options 拓展
    */
-  constructor(response: Response, options: ResInit) {
+  constructor(response: Res, options: ResInit | Response) {
     let body = (options.body ?? response.body) as BodyInit;
 
     const headers = new Headers(options.headers ?? response.headers);
@@ -28,5 +29,9 @@ export class Res extends Response {
       statusText: options.statusText ?? response.statusText,
       headers,
     });
+
+    this.meta = (options as ResInit).meta ?? response.meta;
+    this.responseType =
+      (options as ResInit).responseType ?? response.responseType;
   }
 }
