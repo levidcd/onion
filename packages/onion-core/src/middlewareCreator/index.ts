@@ -29,24 +29,22 @@ export class MiddlewareManger<I, O> {
     return this;
   }
 
-  protected compose(...funcs: Middleware<I, O>[]) {
+  protected compose<T extends Function>(...funcs: Array<(a: T) => T>) {
     if (funcs.length === 0) {
-      return (arg: any) => arg;
+      return <T>(arg: T) => arg;
     }
 
     if (funcs.length === 1) {
       return funcs[0];
     }
 
-    return funcs.reduce((a, b) => {
-      return function (...args) {
-        return a(b(...args));
-      };
-    });
+    return funcs.reduce(
+      (a, b) =>
+        (...args) =>
+          a(b(...args))
+    );
   }
 
-  protected dispatch(fn: (...args: any[]) => Promise<any>) {
-    const dispatch = this.compose(...this.middleware);
-    return dispatch(fn);
-  }
+  protected dispatch = (fn: (req: I) => Promise<O>) =>
+    this.compose(...this.middleware)(fn);
 }

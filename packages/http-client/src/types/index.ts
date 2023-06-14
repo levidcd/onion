@@ -52,5 +52,6 @@ export interface ReqInit extends Omit<RequestInit, "body"> {
   responseType?: IResponseType;
   meta?: Record<string, any>;
   body?: BodyInit | Record<string, any>;
-  originRequest?: any;
+  originRequest?: ReqInit;
+  debug?: boolean;
 }

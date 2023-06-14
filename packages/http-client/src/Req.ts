@@ -5,6 +5,7 @@ export class Req extends Request {
   readonly meta?: Record<string, any>;
   readonly responseType?: IResponseType;
   readonly originRequest: Record<string, any>;
+  readonly debug: boolean;
   /**
    * 对请求对象的增强
    * @param response 上一个对象
@@ -41,7 +42,9 @@ export class Req extends Request {
       mode: options.mode ?? request.mode,
     });
     this.meta = (options as ReqInit).meta ?? request.meta;
-    this.responseType = (options as ReqInit).responseType ?? request.responseType;
+    this.responseType =
+      (options as ReqInit).responseType ?? request.responseType;
     this.originRequest = request;
+    this.debug = (options as ReqInit).debug ?? request.debug;
   }
 }

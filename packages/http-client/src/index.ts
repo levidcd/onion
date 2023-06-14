@@ -14,7 +14,6 @@ import { takeTimeHandler } from "./middleware/takeTimeHandler";
 import {
   HttpClientMiddleware,
   HttpClientWrapperMiddleware,
-  IResult,
   IOptions,
 } from "@/types";
 import { mergeHeaders } from "@/utils";
@@ -61,12 +60,12 @@ class HttpClient extends MiddlewareManger<Req, Res> {
       baseURL: options.baseURL || "",
     };
   }
-  request(options) {
+  request<T = Res>(options: IOptions): Promise<T> {
     return this.dispatch(fetch)({
       ...this.options,
       ...options,
       headers: mergeHeaders(this.options.headers || {}, options?.headers || {}),
-    });
+    } as unknown as Req) as unknown as Promise<T>;
   }
 
   get(url, options) {
