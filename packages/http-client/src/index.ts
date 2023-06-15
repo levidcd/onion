@@ -11,12 +11,9 @@ import { Req } from "@/Req";
 import { Res } from "@/Res";
 
 import { takeTimeHandler } from "./middleware/takeTimeHandler";
-import {
-  HttpClientMiddleware,
-  HttpClientWrapperMiddleware,
-  IOptions,
-} from "@/types";
+import { IMiddleware, IEnhanceMiddleware, IOptions } from "@/types";
 import { mergeHeaders } from "@/utils";
+import { Result, ResultError } from "./utils/result";
 
 class HttpClient extends MiddlewareManger<Req, Res> {
   middleware = [
@@ -26,7 +23,7 @@ class HttpClient extends MiddlewareManger<Req, Res> {
     responseHandler,
   ];
 
-  use(middleware: HttpClientMiddleware | HttpClientMiddleware[]): this {
+  use(middleware: IMiddleware | IMiddleware[]): this {
     const responseHandler = this.middleware.pop()!;
     const takeTimeHandler = this.middleware.pop()!;
     // const responseTypeHandler = this.middleware.pop()!;
@@ -42,17 +39,24 @@ class HttpClient extends MiddlewareManger<Req, Res> {
     return this;
   }
 
-  useWrapper(
-    middleware: HttpClientWrapperMiddleware | HttpClientWrapperMiddleware[]
-  ): this {
+  useEnhance(middleware: IEnhanceMiddleware | IEnhanceMiddleware[]): this {
     this.middleware = [
       ...[...[middleware].flat()].reverse(),
       ...this.middleware,
-    ] as HttpClientMiddleware[];
+    ] as IMiddleware[];
 
     return this;
   }
+
+  /**
+   * 请求配置
+   */
   options: IOptions;
+
+  /**
+   * 初始化配置
+   * @param options
+   */
   constructor(options: IOptions = {}) {
     super();
     this.options = {
@@ -64,7 +68,10 @@ class HttpClient extends MiddlewareManger<Req, Res> {
     return this.dispatch(fetch)({
       ...this.options,
       ...options,
-      headers: mergeHeaders(this.options.headers || {}, options?.headers || {}),
+      headers: mergeHeaders(
+        this.options.headers || {},
+        options?.headers || {}
+      ) as Headers,
     } as unknown as Req) as unknown as Promise<T>;
   }
 
@@ -77,6 +84,7 @@ class HttpClient extends MiddlewareManger<Req, Res> {
 }
 
 export { HttpClient };
-export { HttpClientMiddleware, HttpClientWrapperMiddleware };
+export { IMiddleware, IEnhanceMiddleware };
 export { Req, Res };
 export { ResponseError } from "./constant";
+export { Result, ResultError };

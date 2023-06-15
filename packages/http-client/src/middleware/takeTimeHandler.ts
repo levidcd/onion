@@ -1,7 +1,7 @@
 import { Logger } from "../utils/logger";
-import { HttpClientMiddleware } from "../types";
+import { IMiddleware } from "../types";
 
-export const takeTimeHandler: HttpClientMiddleware = (next) => async (req) => {
+export const takeTimeHandler: IMiddleware = (next) => async (req) => {
   const start = Date.now();
 
   const res = await next(req);

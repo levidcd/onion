@@ -1,8 +1,8 @@
-import { HttpClientMiddleware } from "../types";
+import { IMiddleware } from "../types";
 import { Req } from "../Req";
 import { Logger } from "@/utils/logger";
 
-export const requestHandler: HttpClientMiddleware = (next) => async (req) => {
+export const requestHandler: IMiddleware = (next) => async (req) => {
   const { url } = req;
 
   if (req.debug) {

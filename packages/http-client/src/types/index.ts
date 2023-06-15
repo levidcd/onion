@@ -4,6 +4,7 @@ import {
 } from "@agito/onion-core/es/middlewareCreator/interface";
 import type { Req } from "../Req";
 import type { Res } from "../Res";
+import { Result } from "@/utils/result";
 
 export type IResult = {
   code: number;
@@ -20,9 +21,9 @@ export interface OverrideReqInit extends IOptions {
   body?: BodyInit;
 }
 
-export type HttpClientMiddleware = Middleware<Req, Res>;
+export type IMiddleware = Middleware<Req, Res>;
 
-export type HttpClientWrapperMiddleware = Middleware<IOptions, IResult>;
+export type IEnhanceMiddleware = Middleware<IOptions, Result>;
 
 export type IResponseType =
   | "json"
