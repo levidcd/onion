@@ -5,7 +5,6 @@ import { isJsonBody } from "@/utils";
 export const responseTypeHandler: IMiddleware = (next) => async (req) => {
 
   const res = await next(req)
-debugger
   if (res) {
     if (req.responseType === "json") {
       return await res[req.responseType]();

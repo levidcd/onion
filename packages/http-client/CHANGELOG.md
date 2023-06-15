@@ -1,5 +1,16 @@
 # @agito/http-client
 
+## 1.0.0
+
+### Major Changes
+
+- 初始版本
+
+### Patch Changes
+
+- Updated dependencies
+  - @agito/onion-core@1.0.0
+
 ## 0.2.0
 
 ### Minor Changes

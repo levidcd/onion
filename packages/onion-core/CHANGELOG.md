@@ -1,5 +1,11 @@
 # @agito/onion-core
 
+## 1.0.0
+
+### Major Changes
+
+- 初始版本
+
 ## 0.1.0
 
 ### Minor Changes
