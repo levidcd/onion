@@ -1,14 +1,25 @@
-import { IResponseError } from "@/constant";
+import { ResponseError } from "@/constants";
+
+type IResponseTypeError = keyof typeof ResponseError | string;
 
 export class ResultError {
-  type: IResponseError;
-  
-  other? = {};
+  static ErrorType = ResponseError;
+  type: IResponseTypeError;
+  message?: string;
 
-  constructor(options) {
-    const { type = "unknown", ...other } = options ?? "";
+  extra?: Record<string, any> = {};
+
+  constructor(
+    options: { type: IResponseTypeError; message: string } & Record<string, any>
+  ) {
+    const {
+      type = ResponseError.UnKnownError,
+      message = ResponseError.UnKnownError,
+      ...other
+    } = options ?? {};
+    
     this.type = type;
-    this.other = other;
+    this.extra = other;
   }
   stringify() {
     return JSON.stringify(this);

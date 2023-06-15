@@ -14,17 +14,20 @@ import { takeTimeHandler } from "./middleware/takeTimeHandler";
 import { IMiddleware, IEnhanceMiddleware, IOptions } from "@/types";
 import { mergeHeaders } from "@/utils";
 import { Result, ResultError } from "./utils/result";
+import timeoutHandler from "./middleware/timeoutHandler";
 
 class HttpClient extends MiddlewareManger<Req, Res> {
   middleware = [
     requestHandler,
     responseTypeHandler,
     takeTimeHandler,
+    timeoutHandler,
     responseHandler,
   ];
 
   use(middleware: IMiddleware | IMiddleware[]): this {
     const responseHandler = this.middleware.pop()!;
+    const timeoutHandler = this.middleware.pop()!;
     const takeTimeHandler = this.middleware.pop()!;
     // const responseTypeHandler = this.middleware.pop()!;
 
@@ -33,6 +36,7 @@ class HttpClient extends MiddlewareManger<Req, Res> {
       ...[middleware].flat(),
       // responseTypeHandler,
       takeTimeHandler,
+      timeoutHandler,
       responseHandler,
     ];
 
@@ -65,7 +69,7 @@ class HttpClient extends MiddlewareManger<Req, Res> {
     };
   }
   request<T = Res>(options: IOptions): Promise<T> {
-    return this.dispatch(fetch)({
+    return this.dispatch(fetch as any as (req: Req) => Promise<Res>)({
       ...this.options,
       ...options,
       headers: mergeHeaders(
@@ -84,7 +88,6 @@ class HttpClient extends MiddlewareManger<Req, Res> {
 }
 
 export { HttpClient };
-export { IMiddleware, IEnhanceMiddleware };
 export { Req, Res };
-export { ResponseError } from "./constant";
+export { ResponseError } from "./constants";
 export { Result, ResultError };

@@ -1,10 +1,13 @@
 import { isJsonBody } from "./utils";
 import type { IResponseType, ReqInit } from "./types";
+import { ABORT_CONTROLLER } from "./constants";
 
 export class Req extends Request {
   readonly meta?: Record<string, any>;
   readonly responseType?: IResponseType;
-  readonly originRequest: Record<string, any>;
+  readonly originRequest?: Record<string, any>;
+  readonly timeout: number;
+  readonly [ABORT_CONTROLLER]: AbortController;
   readonly debug: boolean;
   /**
    * 对请求对象的增强
@@ -32,6 +35,10 @@ export class Req extends Request {
       headers.delete("Content-Type");
     }
 
+    const abortController = new AbortController();
+
+    const signal = options.signal || request.signal || abortController.signal;
+
     /**
      * 根据配置的数据生成新的Response
      */
@@ -40,11 +47,18 @@ export class Req extends Request {
       headers,
       body: body ?? request.body,
       mode: options.mode ?? request.mode,
+      signal: abortController.signal,
     });
     this.meta = (options as ReqInit).meta ?? request.meta;
     this.responseType =
       (options as ReqInit).responseType ?? request.responseType;
     this.originRequest = request;
     this.debug = (options as ReqInit).debug ?? request.debug;
+
+    this.timeout = (options as ReqInit).timeout ?? request.timeout;
+    this[ABORT_CONTROLLER] = abortController;
+    signal.addEventListener("abort", () => {
+      abortController.abort();
+    });
   }
 }

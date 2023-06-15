@@ -5,6 +5,7 @@ import {
 import type { Req } from "../Req";
 import type { Res } from "../Res";
 import { Result } from "@/utils/result";
+import { ABORT_CONTROLLER, ResponseError } from "@/constants";
 
 export type IResult = {
   code: number;
@@ -41,6 +42,9 @@ export type IResponseType =
 export interface ResInit extends ResponseInit {
   responseType?: IResponseType;
   meta?: Record<string, any>;
+  throwHttpError?: boolean;
+  timeout?: number;
+  [ABORT_CONTROLLER]?: AbortController;
   body?: BodyInit | Record<string, any> | null;
 }
 
@@ -51,6 +55,9 @@ export interface ResInit extends ResponseInit {
 export interface ReqInit extends Omit<RequestInit, "body"> {
   url?: string;
   responseType?: IResponseType;
+  timeout?: number;
+  throwHttpError?: boolean;
+  [ABORT_CONTROLLER]?: AbortController;
   meta?: Record<string, any>;
   body?: BodyInit | Record<string, any>;
   originRequest?: ReqInit;
