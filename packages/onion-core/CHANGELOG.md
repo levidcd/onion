@@ -1,5 +1,11 @@
 # @agito/onion-core
 
+## 1.1.0
+
+### Minor Changes
+
+- 支持 GET + Paramas
+
 ## 1.0.0
 
 ### Major Changes
