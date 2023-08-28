@@ -1,5 +1,11 @@
 # @agito/http-client
 
+## 1.2.0
+
+### Minor Changes
+
+- 添加响应头的默认处理
+
 ## 1.1.0
 
 ### Minor Changes

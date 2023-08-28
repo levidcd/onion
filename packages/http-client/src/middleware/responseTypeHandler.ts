@@ -6,8 +6,8 @@ export const responseTypeHandler: IMiddleware = (next) => async (req) => {
 
   const res = await next(req)
   if (res) {
-    if (req.responseType === "json") {
-      return await res[req.responseType]();
+    if (req.responseType === "json" || res.headers.get('Content-Type')?.includes('application/json')) {
+      return await res['json']();
     }
 
     return req.responseType
